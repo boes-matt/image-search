@@ -3,6 +3,7 @@
 
     <string name="app_name">Image Search</string>
     <string name="action_advanced">Settings</string>
+    <string name="action_share">Share</string>
     <string name="query_hint">Pictures of</string>
     <string name="search">Search</string>
     <string name="imageResult">Image result</string>
@@ -18,5 +19,6 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="load_more">Load More</string>
+    <string name="share">Send image with</string>
 
 </resources>

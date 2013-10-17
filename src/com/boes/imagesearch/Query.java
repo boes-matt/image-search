@@ -18,6 +18,7 @@ public class Query {
 	private int offset;
 	private AsyncHttpClient client;
 	private JsonHttpResponseHandler callback;
+	private boolean mLoading = false;
 	
 	public Query(JsonHttpResponseHandler callback) {
 		params = new HashMap<String, String>();
@@ -30,6 +31,7 @@ public class Query {
 	public void setQuery(String query) {
 		setParam(GoogleAPI.KEY_QUERY, query);
 		offset = 0;
+		setLoading(false);
 	}
 	
 	public void setParam(String key, String value) {
@@ -54,6 +56,7 @@ public class Query {
 	}
 	
 	public void next() {
+		setLoading(true);
 		setParam(GoogleAPI.KEY_RESULT_SIZE, GoogleAPI.MAX_RESULT_SIZE);
 		setParam(GoogleAPI.KEY_START, offset);
 		offset += GoogleAPI.MAX_RESULT_SIZE;
@@ -76,6 +79,14 @@ public class Query {
 		setParam(GoogleAPI.KEY_COLOR, GoogleAPI.COLORS[0]);
 		setParam(GoogleAPI.KEY_TYPE, GoogleAPI.TYPES[0]);
 		setParam(GoogleAPI.KEY_SITE, GoogleAPI.EMPTY);
+	}
+
+	public boolean isLoading() {
+		return mLoading;
+	}
+
+	public void setLoading(boolean loading) {
+		mLoading = loading;
 	}
 	
 }

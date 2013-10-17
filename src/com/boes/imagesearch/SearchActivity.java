@@ -16,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
@@ -45,11 +47,13 @@ public class SearchActivity extends Activity {
 		setupViews();
 		setupAdapter();
 		setupQuery();
+		setupOnScrollListener();
 	}
 	
 	private void setupViews() {
 		etQuery = (EditText) findViewById(R.id.etQuery);
 		gvImages = (GridView) findViewById(R.id.gvImages);
+		
 		gvImages.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -60,7 +64,7 @@ public class SearchActivity extends Activity {
 				startActivityForResult(i, REQUEST_FULLSCREEN);
 			}
 			
-		});
+		});		
 	}
 
 	private void setupAdapter() {
@@ -74,12 +78,35 @@ public class SearchActivity extends Activity {
 
 			@Override
 			public void onSuccess(JSONObject response) {
+				mQuery.setLoading(false);
 				mAdapter.addAll(ImageResult.fromJSONArray(getResults(response)));
 			}
 			
 		});
 	}
 	
+	private void setupOnScrollListener() {
+		gvImages.setOnScrollListener(new OnScrollListener() {
+
+			private static final int THRESHOLD = 6;
+			
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				
+			}
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+				if (!mQuery.isLoading() && mQuery.hasNext() && visibleItemCount != 0) {
+					if (firstVisibleItem + visibleItemCount > totalItemCount - THRESHOLD) {
+						mQuery.next();
+					}
+				}
+			}
+			
+		});
+	}
+		
 	private JSONArray getResults(JSONObject response) {
 		JSONArray results = new JSONArray();
 		
@@ -100,7 +127,6 @@ public class SearchActivity extends Activity {
 		
 		String query = etQuery.getText().toString();
 		mQuery.setQuery(query);
-		mQuery.next();
 		mQuery.next();
 		
 		Toast.makeText(this, "Searching for " + query, Toast.LENGTH_SHORT).show();
@@ -136,8 +162,4 @@ public class SearchActivity extends Activity {
 		}
 	}
 	
-	public void loadMore(View v) {
-		mQuery.next();
-	}
-
 }

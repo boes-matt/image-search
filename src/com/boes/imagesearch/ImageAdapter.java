@@ -18,6 +18,7 @@ public class ImageAdapter extends ArrayAdapter<ImageResult> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		ImageResult imageInfo = getItem(position);
 		SmartImageView ivImage;
 		
 		if (convertView == null) {
@@ -28,7 +29,6 @@ public class ImageAdapter extends ArrayAdapter<ImageResult> {
 			ivImage.setImageResource(android.R.color.transparent);
 		}
 		
-		ImageResult imageInfo = getItem(position);
 		ivImage.setImageUrl(imageInfo.getThumbUrl());
 		return ivImage;
 	}

@@ -29,22 +29,11 @@
         android:id="@+id/gvImages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btnLoadMore"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/etQuery"
         android:layout_margin="10dp"
         android:numColumns="3" >
 
     </GridView>
-
-    <Button
-        android:id="@+id/btnLoadMore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="10dp"
-        android:text="@string/load_more"
-        android:onClick="loadMore" />
 
 </RelativeLayout>
